@@ -1,11 +1,35 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet, Platform,Linking } from 'react-native';
+
+import { DeviceMotion } from 'expo-sensors';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeScreen() {
+  const handleEnviar=async ()=>{
+    const numero=await AsyncStorage.getItem("numeroEmergencia")
+    
+    await Linking.openURL("sms:"+numero+"?body=EMERGENCIA")
+
+}
+
+async function handleMotionEvent(e) {
+  const x = e.accelerationIncludingGravity.x;
+  const y = e.accelerationIncludingGravity.y;
+  const z = e.accelerationIncludingGravity.z;
+  console.log(x);
+  
+
+  if (x>1 || y>1 || z>1) {
+    await handleEnviar()
+    
+  }
+}
+
+window.addEventListener("devicemotion", handleMotionEvent, true);
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}

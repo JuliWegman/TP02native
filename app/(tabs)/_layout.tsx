@@ -24,11 +24,20 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="qr"
         options={{
-          title: 'Explore',
+          title: 'Nosotros',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon name={focused ? 'help-circle' : 'help-circle'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="setNumero"
+        options={{
+          title: 'Numero',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'call' : 'call'} color={color} />
           ),
         }}
       />
