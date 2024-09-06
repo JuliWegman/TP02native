@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Platform,Linking } from 'react-native';
-
-import { DeviceMotion } from 'expo-sensors';
+import { useState ,useEffect} from 'react';
+import { DeviceMotion,Accelerometer } from 'expo-sensors';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -9,27 +9,28 @@ import { ThemedView } from '@/components/ThemedView';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeScreen() {
+  const[{x},setData]=useState({x:0})
+
+  useEffect(()=>{
+    const pos=Accelerometer.addListener(setData)
+    return ()=>pos.remove()
+  },[])
+
+  useEffect(()=>{
+    if (x>1.5) {
+      handleEnviar()
+      console.log("llamada");
+    }    
+  },[x])
+
   const handleEnviar=async ()=>{
     const numero=await AsyncStorage.getItem("numeroEmergencia")
-    
-    await Linking.openURL("sms:"+numero+"?body=EMERGENCIA")
+    const url="whatsapp://send?phone="+numero+"&text=EMERGENCIA"
+    await Linking.openURL(url)
 
-}
-
-async function handleMotionEvent(e) {
-  const x = e.accelerationIncludingGravity.x;
-  const y = e.accelerationIncludingGravity.y;
-  const z = e.accelerationIncludingGravity.z;
-  console.log(x);
-  
-
-  if (x>1 || y>1 || z>1) {
-    await handleEnviar()
-    
   }
-}
 
-window.addEventListener("devicemotion", handleMotionEvent, true);
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -44,31 +45,8 @@ window.addEventListener("devicemotion", handleMotionEvent, true);
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+        
+        <ThemedText type="defaultSemiBold">x: {x}</ThemedText>
       </ThemedView>
     </ParallaxScrollView>
   );

@@ -1,4 +1,4 @@
-import { Image, StyleSheet, TextInput,SafeAreaView,Button } from 'react-native';
+import { Image, StyleSheet, TextInput,SafeAreaView,Button,Alert,Vibration } from 'react-native';
 import { useState } from 'react';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -11,14 +11,20 @@ export default function setNumero() {
     async function setStorage(num){
         await AsyncStorage.setItem("numeroEmergencia", num)
     }
-    const Send=()=>{    
+    const Send=()=>{
         if (number.length<10 ) {
-            setX("Numero de telefono inválido")
+            // Alert.alert("Numero invalido","el numero deben ser 2 numeros de prefijo y luego 8 de numero, todo junto")
+            for (let index = 0; index < 100; index++) {
+                Vibration.vibrate()
+
+            }
+            Vibration.vibrate()
+
         }else{
             const numberPosta='+549' + number
             setStorage(numberPosta)
             setX("Numero Guardado!")
-            
+
         }
         setTimeout(()=>setX(''),2000)
 
@@ -26,8 +32,8 @@ export default function setNumero() {
     }
     return (
 
-      
-            <SafeAreaView style={styles.todo}> 
+
+            <SafeAreaView style={styles.todo}>
                 <ThemedText>Número de telefono de emergencia</ThemedText>
                 <ThemedText>(sin +54 9)</ThemedText>
                 <ThemedText>{x}</ThemedText>
@@ -39,13 +45,13 @@ export default function setNumero() {
                     placeholder="useless placeholder"
                     keyboardType="numeric"
                     maxLength={10}
-                />   
+                />
                 <Button
                     onPress={Send}
                     title="Guardar"
                     color="#841584"
                 />
-            </SafeAreaView> 
+            </SafeAreaView>
     );
   }
 
