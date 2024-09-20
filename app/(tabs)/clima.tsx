@@ -13,7 +13,7 @@ export default function HomeScreen() {
     const [temperatura,setTemperatura]=useState()
     const [nube,setnube]=useState()
     const [humedad,sethumedad]=useState()
-
+    const [fecha,setFecha]=useState(new Date(Date.now()))
     useEffect(() => {
       (async () => {
         try{
@@ -34,6 +34,7 @@ export default function HomeScreen() {
             
         }
     })();
+    setInterval(()=>{setFecha(new Date(Date.now()))},1000)
     }, []);
     useEffect(()=>{
         async function fetchData(){
@@ -55,10 +56,10 @@ export default function HomeScreen() {
           />
         }>
         <ThemedView style={styles.titleContainer}>
-          <ThemedText type="title">Clima en {lugar}:</ThemedText>
-
+            <ThemedText type="title">{fecha.toLocaleDateString()} {fecha.toLocaleTimeString()}</ThemedText>
         </ThemedView>
         <ThemedView >
+        <ThemedText type="title">Clima en {lugar}:</ThemedText>
           <ThemedText >La temperatura es de {temperatura}°C</ThemedText>
           <ThemedText >%{nube} Nublado</ThemedText>
           <ThemedText >%{humedad} de humedad</ThemedText>

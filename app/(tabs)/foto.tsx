@@ -3,12 +3,10 @@ import { useState } from 'react';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import QRCode from 'react-native-qrcode-svg'; 
 import { Camera, CameraView } from 'expo-camera';
 
 export default function qr() {
-    const [modalVisible, setModalVisible] = useState(false);
-    const [contModal,setContModal]=useState("")
+    
     return (
       <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -18,39 +16,12 @@ export default function qr() {
           style={styles.reactLogo}
         />
       }>
-            <ThemedView style={styles.centeredView}>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-                setModalVisible(!modalVisible);
-                }}>
-                <ThemedView style={styles.centeredView}>
-                    <ThemedView style={styles.modalView}>
-                        <Text style={styles.modalText}>{contModal}</Text>
-                        <Pressable
-                        style={[styles.button, styles.buttonClose]}
-                        onPress={() => setModalVisible(!modalVisible)}>
-                        <ThemedText style={styles.textStyle}>Cerrar</ThemedText>
-                        </Pressable>
-                    </ThemedView>
-                </ThemedView>
-            </Modal>
-            <QRCode 
-              value={"app de Julián Wegman y Axel Kleiman :)"} 
-              size={200} 
-              color="black"
-              backgroundColor="white"
-            /> 
-            <CameraView
-              style={styles.camara}
-              facing='back'
-              onBarcodeScanned={({data})=>{setContModal(data);setModalVisible(true)}}
-            />
+        <ThemedView style={styles.centeredView}>
             
-    </ThemedView>
+            
+            
+            
+        </ThemedView>
       </ParallaxScrollView>
     );
   }
