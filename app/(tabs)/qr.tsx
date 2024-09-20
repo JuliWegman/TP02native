@@ -4,10 +4,11 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import QRCode from 'react-native-qrcode-svg'; 
+import { Camera, CameraView } from 'expo-camera';
 
 export default function qr() {
     const [modalVisible, setModalVisible] = useState(false);
-
+    const [contModal,setContModal]=useState("")
     return (
       <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -28,7 +29,7 @@ export default function qr() {
                 }}>
                 <ThemedView style={styles.centeredView}>
                     <ThemedView style={styles.modalView}>
-                        <Text style={styles.modalText}>Los creadores de esta aplicacion son Julián Wegman y Axel Kleiman :)</Text>
+                        <Text style={styles.modalText}>{contModal} aa</Text>
                         <Pressable
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => setModalVisible(!modalVisible)}>
@@ -37,17 +38,18 @@ export default function qr() {
                     </ThemedView>
                 </ThemedView>
             </Modal>
-                        <QRCode 
-                            value={"Los creadores de esta aplicacion son Julián Wegman y Axel Kleiman :)"} 
-                            size={200} 
-                            color="black"
-                            backgroundColor="white"
-                        /> 
-                        <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}>
-        <ThemedText style={styles.textStyle}>Creadores</ThemedText>
-      </Pressable>
+            <QRCode 
+              value={"Los creadores de esta aplicacion son Julián Wegman y Axel Kleiman :)"} 
+              size={200} 
+              color="black"
+              backgroundColor="white"
+            /> 
+            <CameraView
+              style={styles.camara}
+              facing='back'
+              onBarcodeScanned={({data})=>{setContModal(data);setModalVisible(true)}}
+            />
+            
     </ThemedView>
       </ParallaxScrollView>
     );
@@ -59,6 +61,10 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center',
       gap: 8,
+    },
+    camara:{
+      width:300,
+      height:275
     },
     stepContainer: {
       gap: 8,

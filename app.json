@@ -28,7 +28,13 @@
     },
     "plugins": [
       "expo-router",
-      "expo-sensors"
+      "expo-sensors",
+      ["expo-camera",
+      {
+        "cameraPermission":"puedo acceder a la camara?",
+        "microphonePermission":"puedo acceder al microfono?",
+        "recordAudioAndroid":true
+      }]
       
     ],
     "experiments": {

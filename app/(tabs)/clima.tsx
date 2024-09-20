@@ -9,28 +9,35 @@ import * as Location from 'expo-location';
 const apiKey="164902dbe4541744dab5d3393451cdfc"
 
 export default function HomeScreen() {
-    const [lugar,setLugar]=useState({})
+    const [lugar,setLugar]=useState()
     const [temperatura,setTemperatura]=useState()
-    const [clima,setClima]=useState()
-  
+    const [nube,setnube]=useState()
+    const [humedad,sethumedad]=useState()
+
     useEffect(() => {
       (async () => {
-        
+        try{
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
           return;
         }
   
-        let location = await Location.getCurrentPositionAsync({});
-        setLugar(location);
-        console.log(lugar);
-        
-      })();
+        const location = await Location.getCurrentPositionAsync({});        
+        const res=await axios.get("https://api.openweathermap.org/data/2.5/weather?lat="+location.coords.latitude+"&lon="+location.coords.longitude+"&appid="+apiKey+"&units=metric")
+        setnube(res.data.clouds.all)
+        setTemperatura(res.data.main.temp)
+        sethumedad(res.data.main.humidity)
+        setLugar(res.data.name)
+        console.log(res.data.name);
+        }catch(error){
+            console.log(error);
+            
+        }
+    })();
     }, []);
     useEffect(()=>{
         async function fetchData(){
-            const res=await axios.get("")
-            setTemperatura(res.data)
+            
 
         }
 
@@ -48,9 +55,17 @@ export default function HomeScreen() {
           />
         }>
         <ThemedView style={styles.titleContainer}>
-          <ThemedText type="title">Clima hoy en {}</ThemedText>
+          <ThemedText type="title">Clima en {lugar}:</ThemedText>
+
         </ThemedView>
-  
+        <ThemedView >
+          <ThemedText >La temperatura es de {temperatura}°C</ThemedText>
+          <ThemedText >%{nube} Nublado</ThemedText>
+          <ThemedText >%{humedad} de humedad</ThemedText>
+
+
+
+        </ThemedView>
       </ParallaxScrollView>
     );
   }
