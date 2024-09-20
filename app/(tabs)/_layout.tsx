@@ -28,7 +28,7 @@ export default function TabLayout() {
         options={{
           title: 'Nosotros',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'help-circle' : 'help-circle'} color={color} />
+            <TabBarIcon name={focused ? 'help-circle' : 'help-circle-outline'} color={color} />
           ),
         }}
       />
@@ -37,7 +37,16 @@ export default function TabLayout() {
         options={{
           title: 'Numero',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'call' : 'call'} color={color} />
+            <TabBarIcon name={focused ? 'call' : 'call-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="clima"
+        options={{
+          title: 'clima',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'cloud' : 'cloud-outline'} color={color} />
           ),
         }}
       />

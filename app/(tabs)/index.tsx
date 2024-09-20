@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Platform,Linking } from 'react-native';
 import { useState ,useEffect} from 'react';
-import { DeviceMotion,Accelerometer } from 'expo-sensors';
+import { Accelerometer } from 'expo-sensors';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -41,13 +41,10 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+        <ThemedText type="title">Bienvenido!</ThemedText>
         <HelloWave />
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        
-        <ThemedText type="defaultSemiBold">x: {x}</ThemedText>
-      </ThemedView>
+
     </ParallaxScrollView>
   );
 }
